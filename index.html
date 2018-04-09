@@ -1,0 +1,56 @@
+<html>
+<head>
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>INFO 3300 PROJECT 2</title>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="sankey.js"></script>
+
+</head>
+<body>
+
+<svg height="800" width="800">
+</svg>
+
+<script>
+
+var svg = d3.select("svg");
+
+var usaData;
+var gbData;
+var rawUsaData;
+var rawGbData;
+
+function parseLine (line) {
+  return { 
+    CategoryID: line["category_id"],
+    Views: line["views"],
+    Name: line["title"],
+  };
+}
+
+
+d3.queue()
+.defer(d3.csv, "USvideos.csv")
+.defer(d3.csv, "GBvideos.csv")
+.await(function(error, data1, data2) {
+    if (error) {
+        console.error('Error: ' + error);
+    }
+    else {
+	  console.log("start processing");
+      rawUsaData = data1;
+	  rawGBData = data2;
+	  nestedUsaData = d3.nest()
+	  .key(function (d) { return d.category_id; })
+	  .entries(data1);
+	  rawGBData = data2;
+	  nestedUsaData = d3.nest()
+	  .key(function (d) { return d.category_id; })
+	  .entries(data2);
+	  console.log("done processing");
+    }
+});
+</script>
+</body>
+</html>
