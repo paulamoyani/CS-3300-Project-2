@@ -38,8 +38,8 @@
   <script>
 
   var svg = d3.select("svg");
-  var width = 700;
-  var height = 700;
+  var width = 600;
+  var height = 600;
 
   var formatNumber = d3.format(",.0f"),
                         format = function(d) { return formatNumber(d) + " TWh"; },
@@ -80,15 +80,15 @@
 
     	  console.log("done processing");
 
-        //Probably insert interactivity if statements here:
-        var criteria = "views";
+        //Probably insert interactivity if statements here on criteria:
+        var criteria = "likes";
 
         UsaSummary = nestedUsaData.map(function (d) {
           return {
             Category: d.key,
-            Value: d3.sum(d.values, d => d.views),
-            Max_name: d.values.sort(function(x, y){return d3.descending(x.views, y.views);})[0].title,
-            Max_value: d3.max(d.values, d => d.views)
+            Value: d3.sum(d.values, d => d[criteria]),
+            Max_name: d.values.sort(function(x, y){return d3.descending(x[criteria], y[criteria]);})[0].title,
+            Max_value: d3.max(d.values, d => d[criteria])
           };
         });
 
@@ -97,9 +97,9 @@
         GBSummary = nestedGBData.map(function (d) {
           return {
             Category: d.key,
-            Value: d3.sum(d.values, d => d.views),
-            Max_name: d.values.sort(function(x, y){return d3.descending(x.views, y.views);})[0].title,
-            Max_value: d3.max(d.values, d => d.views)
+            Value: d3.sum(d.values, d => d[criteria]),
+            Max_name: d.values.sort(function(x, y){return d3.descending(x[criteria], y[criteria]);})[0].title,
+            Max_value: d3.max(d.values, d => d[criteria])
           };
         });
 
@@ -135,7 +135,7 @@
         sankey
           .nodes(nodes)
           .links(links)
-          .layout(24);
+          .layout(12);
 
         var link = svg.append("g").selectAll(".link")
           .data(links)
@@ -186,7 +186,7 @@
                 .attr("text-anchor", "end")
                 .attr("transform", null)
                 .text(function(d) { return d.name; })
-              .filter(function(d) { return d.x < width / 2; })
+              .filter(function(d) { return d.x > width / 2; })
                 .attr("x", 6 + sankey.nodeWidth())
                 .attr("text-anchor", "start");
 
