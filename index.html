@@ -11,155 +11,171 @@
 <style>
 @font-face { font-family: Roboto; src: url('Roboto-Regular.ttf'); } 
 
-text {
-  font-family: Roboto;
-}
-h1{
-  font-family: Roboto;
-  position: relative;
-  text-align: left;
-  color: #282828;
-  padding-left: 60px;
-}
-h3{
-  font-family: Roboto;
-  font-size: 12;
-  color: gray;
-  padding-left: 60px;
-}
-#explain{
-  position: absolute;
-  left: -20px;
-}
-.node rect {
-  fill-opacity: .9;
-  stroke: #ff0000;
-  fill: #ff0000;
-  stroke-width: 0;
-  shape-rendering: crispEdges;
-}
+ #window {
+   width: 1200px;
+   margin: auto auto;
+   position: relative;
+   resize: both;
+ }
+ body {
+   font-family: 'Roboto', sans-serif;
+   font-style: normal;
+   font-variant: normal;
+   text-anchor: 'middle';
+   dominant-baseline: 'central';
+ }
+ h1{
+   font-family: Roboto;
+   position: relative;
+   text-align: left;
+   color: #282828;
+ }
+ h3{
+   font-family: Roboto;
+   font-size: 12;
+   color: gray;
+   padding-left: 0px;
+ }
+ #checkExplain1{
+   position: absolute;
+   left: 40px;
+ }
+ #checkExplain2{
+   position: absolute;
+   left: 40px;
+   font-size: 8;
+   top: 35px;
+ }
+ .node rect {
+   fill-opacity: .9;
+   stroke: #ff0000;
+   fill: #ff0000;
+   stroke-width: 0;
+   shape-rendering: crispEdges;
+ }
 
-.node text {
-  color: green;
-  text-shadow: 0 1px 0 #fff;
-}
+ .node text {
+   color: green;
+   text-shadow: 0 1px 0 #fff;
+ }
 
-.link {
-  fill: none;
-  stroke: #000;
-  stroke-opacity: .2;
-}
+ .link {
+   fill: none;
+   stroke-opacity: .6;
+ }
 
-.link:hover {
-  stroke-opacity: .5;
-}
-.checkbox {
-  float: left;
-  padding-right: 150px;
-  padding-left: 50px;
-  position: relative;
-  top:120;
-  left: 50px;
-  font-size: 10;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #ccc;
-  height: 200px;
-  width: 10px;
-}
-svg {
-  float: top;
-  background: rgba(255,255,255,1);
-  position: absolute;
-  transform: translate(-30%, 0);
+ .link:hover {
+   stroke-opacity: 1;
+   stroke: #232323;
+ }
+ .checkbox {
+   float: left;
+   padding-right: 150px;
+   padding-left: 50px;
+   position: relative;
+   top:100;
+   left: 0px;
+   font-size: 10;
+   border-width: 1px;
+   border-style: solid;
+   border-color: #ccc;
+   height: 200px;
+   width: 10px;
+ }
+ svg {
+   float: top;
+   background: rgba(255,255,255,1);
+   position: absolute;
+   transform: translate(-30%, 0);
 
-}
-div.tooltipsankey {   
-  position: absolute;           
-  text-align: left;           
-  width: 95px;                  
-  height: 40px;                 
-  padding: 4px;             
-  font: 11px sans-serif;        
-  background: silver;   
-  border: 0px;      
-  border-radius: 8px;           
-  pointer-events: none;         
-}
-.container {
-  display: block;
-  position: relative;
-  top: 60px;
-  padding-left: 35px;
-  cursor: pointer;
-  font-size: 15px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none
-}
+ }
+ div.tooltipsankey {   
+   position: absolute;           
+   text-align: left;           
+   width: 95px;                  
+   height: 40px;                 
+   padding: 4px;             
+   font: 11px sans-serif;        
+   background: silver;   
+   border: 0px;      
+   border-radius: 8px;           
+   pointer-events: none;         
+ }
+ .container {
+   display: block;
+   position: relative;
+   top: 80px;
+   padding-left: 35px;
+   cursor: pointer;
+   font-size: 15px;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none
+ }
 
-/* Hide the browser's default checkbox */
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
+ /* Hide the browser's default checkbox */
+ .container input {
+   position: absolute;
+   opacity: 0;
+   cursor: pointer;
+ }
 
-/* Create a custom checkbox */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-  font-size: 10;
-}
+ /* Create a custom checkbox */
+ .checkmark {
+   position: absolute;
+   top: -5px;
+   left: 0;
+   height: 25px;
+   width: 25px;
+   background-color: #eee;
+   font-size: 10;
+ }
 
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
-}
+ /* On mouse-over, add a grey background color */
+ .container:hover input ~ .checkmark {
+   background-color: #ccc;
+ }
 
-/* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  background-color: #2196F3;
-}
+ /* When the checkbox is checked, add a blue background */
+ .container input:checked ~ .checkmark {
+   background-color: #2196F3;
+ }
 
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
+ /* Create the checkmark/indicator (hidden when not checked) */
+ .checkmark:after {
+   content: "";
+   position: absolute;
+   display: none;
+ }
 
-/* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
+ /* Show the checkmark when checked */
+ .container input:checked ~ .checkmark:after {
+   display: block;
+ }
 
-/* Style the checkmark/indicator */
-.container .checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
+ /* Style the checkmark/indicator */
+ .container .checkmark:after {
+   left: 9px;
+   top: 5px;
+   width: 5px;
+   height: 10px;
+   border: solid white;
+   border-width: 0 3px 3px 0;
+   -webkit-transform: rotate(45deg);
+   -ms-transform: rotate(45deg);
+   transform: rotate(45deg);
+ }
 
 
 </style>
 <body>
 
+<div id="window">
 <h1><img src="yt_logo_rgb_light.png" alt="YouTube Logo" style="width:200px;height:50px; position: relative; padding-right:20px; padding-top: 10px">YouSATube vs. YouKTube</h1>
 <h3>A visualization of several months of data on daily trending YouTube videos of the United States and Great Britain</h3>
   <div id="chart" align="center">
-    <svg height="700" width="800" id="svg1">
+    <svg height="700" width="800" id="svg1" viewBox="150 0 500 800" preserveAspectRatio="xMidYMid meet" style="margin-left: 0 auto; margin-right: 0 auto">
     </svg>
   </div>
     <!-- CANNOT USE THIS BC NEEDS TO BE INSIDE THE ELSE STATEMENT
@@ -264,25 +280,27 @@ div.tooltipsankey {
           })
         })
 
-        var checkExplain = '<h3 id="explain">Select video information<br>to show on the diagram:</h3>';
-        var form = '<form action="index.html" method="post" id="checkbox1" style="font-family:Roboto"><label class="container"><input type="checkbox" name="option" value="likes" id="likes" onclick="selectBox()" checked> <span class="checkmark"></span>Likes</label><br><label class="container"><input type="checkbox" name="option" value="views" id="views" onclick="selectBox()"> <span class="checkmark"></span>Views</label><br><label class="container"><input type="checkbox" name="option" value="dislikes" id="dislikes" onclick="selectBox()"> <span class="checkmark"></span>Dislikes</label><br><label class="container"><input type="checkbox" name="option" value="comment_count" id="comment_count" onclick="selectBox()"> <span class="checkmark"></span>Comments</label></form>';
+          var checkExplain1 = '<h3 id="checkExplain1">Select video information<br>to show on the diagram:</h3>';
+          var checkExplain2 = '<h3 id="checkExplain2">Values selected will be represented<br>by the width of the lines</h3>';
+          var form = '<form action="index.html" method="post" id="checkbox1" style="font-family:Roboto"><label class="container"><input type="checkbox" name="option" value="likes" id="likes" onclick="selectBox()" checked> <span class="checkmark"></span>Likes</label><br><label class="container"><input type="checkbox" name="option" value="views" id="views" onclick="selectBox()"> <span class="checkmark"></span>Views</label><br><label class="container"><input type="checkbox" name="option" value="dislikes" id="dislikes" onclick="selectBox()"> <span class="checkmark"></span>Dislikes</label><br><label class="container"><input type="checkbox" name="option" value="comment_count" id="comment_count" onclick="selectBox()"> <span class="checkmark"></span>Comments</label></form>';
 
-        $(".checkbox").append(checkExplain);
-        $(".checkbox").append(form);
+          $(".checkbox").append(checkExplain1);
+          $(".checkbox").append(checkExplain2);
+          $(".checkbox").append(form);
 
 
         $('.checkbox').click(function (){
 
               //Cover previous diagrams
         			var rectangle = svg.append("rect")
-                           .attr("x", 0)
-                           .attr("y", 0)
-                           .attr("width", 800)
-						               .attr("height", 800)
-						               .style("fill", "white");
-						  if ($('input[type=checkbox]:checked').length <= 0) {
-                 return;
-              }
+                             .attr("x", -200)
+                             .attr("y", 0)
+                             .attr("width", 2000)
+                             .attr("height", 800)
+                             .style("fill", "white");
+                if ($('input[type=checkbox]:checked').length <= 0) {
+                   return;
+                 }
 
               createSankey(criteria);
               //setTimeout(toggleTransition, 2400);
@@ -500,5 +518,6 @@ div.tooltipsankey {
   });
 console.log(criteria)
   </script>
+</div>
 </body>
 </html>
