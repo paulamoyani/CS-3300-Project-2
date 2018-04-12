@@ -229,7 +229,6 @@ div.tooltipsankey {
           }
           console.log(criteria);
   }
-
  
 
   d3.queue()
@@ -272,21 +271,28 @@ div.tooltipsankey {
         $(".checkbox").append(form);
 
 
-        $('.checkbox').click(function toggleTransition(){
+        $('.checkbox').click(function (){
 
-			var rectangle = svg.append("rect")
+              //Cover previous diagrams
+        			var rectangle = svg.append("rect")
                            .attr("x", 0)
                            .attr("y", 0)
                            .attr("width", 800)
-						   .attr("height", 800)
-						   .style("fill", "white");
-						   
+						               .attr("height", 800)
+						               .style("fill", "white");
+						  if ($('input[type=checkbox]:checked').length <= 0) {
+                 alert("You must check at least on box!");
+                 return;
+              }
 
-          createSankey(criteria);
-          //setTimeout(toggleTransition, 2400);
-          });
+              createSankey(criteria);
+              //setTimeout(toggleTransition, 2400);
+                      });
+
+
               
       function createSankey(criteriaArray) {
+
         UsaSummary = nestedUsaData.map(function (d) {
           return {
             Category: d.key,
