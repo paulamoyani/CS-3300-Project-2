@@ -321,8 +321,9 @@ div.tooltipsankey {
           nodes.push(d.Category);
           links.push({ "source": "USA",
                        "target": d.Category,
-                       "value": d.Value });
-        });
+                       "value": d.Value,
+                       "color": "#000000"});
+          });
 
         GBSummary.forEach(function (d) {
           if (!nodes.includes(d.Category)) {
@@ -330,8 +331,9 @@ div.tooltipsankey {
           }
           links.push({ "source": "GB",
                         "target": d.Category,
-                        "value": d.Value });
-        });
+                        "value": d.Value, 
+                        "color": "#4d4d4d"});
+          });
 
         links.forEach(function (d, i) {
            links[i].source = nodes.indexOf(links[i].source);
@@ -353,13 +355,14 @@ div.tooltipsankey {
           .enter().append("path")
           .attr("class", "link")
           .attr("d", path)
-          .style("stroke-width", function(d) { return Math.max(1, d.dy); });
+          .style("stroke-width", function(d) { return Math.max(1, d.dy);})
+          .style("stroke", function(d) { return d.color ;});
 
         link.on("mouseover", function(d) {      
             div.transition()        
                 .duration(200)      
                 .style("opacity", .9);      
-            div .html("<b>" + d.source.name + "</b> → <b>"  + d.target.name + "</b><br/>" + format(d.value))  
+            div.html("<b>" + d.source.name + "</b> → <b>"  + d.target.name + "</b><br/>" + format(d.value))  
                 .style("left", (d3.event.pageX) + "px")     
                 .style("top", (d3.event.pageY - 28) + "px");    
             })                  
@@ -405,8 +408,8 @@ div.tooltipsankey {
                 .style("left", (d3.event.pageX) + "px")     
                 .style("top", (d3.event.pageY - 28) + "px");    
             })                  
-        .on("mouseout", function(d) {       
-            div.transition()        
+            .on("mouseout", function(d) {       
+              div.transition()        
                 .duration(500)      
                 .style("opacity", 0);   
         });
@@ -427,7 +430,7 @@ div.tooltipsankey {
             node.on("mouseover", function(d) {
               link.transition()        
                     .duration(700)
-                .style("opacity", .1);
+                .style("opacity", 0);
               link.filter(function(s) { return d.name == s.source.name; }).transition()        
                     .duration(700)
                 .style("opacity", 1);
