@@ -202,7 +202,7 @@
 
   // Set the sankey diagram properties
   var sankey = d3.sankey()
-      .nodeWidth(10)
+      .nodeWidth(20)
       .nodePadding(20)
       .size([width, height]);
 
@@ -245,6 +245,14 @@
           }
           console.log(criteria);
   }
+  function selectItems(){
+              var res = "";
+              if (criteria[0] == "1"){ res+= "   likes"; if (criteria[1] == "1" || criteria[2] == "1" || criteria[3] == "1" ){ res+= ",";}}
+              if (criteria[1] == "1"){ res+= "   views"; if (criteria[2] == "1" || criteria[3] == "1") { res+= ","}}
+              if (criteria[2] == "1"){ res+= "   dislikes"; if (criteria[2] == "1" ) { res+= ","}}
+              if (criteria[3] == "1"){ res+= "   comments";}
+              return res;
+            }
  
 
   d3.queue()
@@ -376,13 +384,20 @@
           .style("stroke-width", function(d) { return Math.max(1, d.dy);})
           .style("stroke", function(d) { return d.color ;});
 
-        link.on("mouseover", function(d) {      
+        link.on("mouseover", function(d) {
             div.transition()        
                 .duration(200)      
-                .style("opacity", .9);      
-            div.html("<b>" + d.source.name + "</b> → <b>"  + d.target.name + "</b><br/>" + format(d.value))  
-                .style("left", (d3.event.pageX) + "px")     
-                .style("top", (d3.event.pageY - 28) + "px");    
+                .style("opacity", .9)
+                .style("width", 200)
+                .style("height", 100)
+                .style("border-color", "black")
+                .style("border-style", "solid")
+                .style("border-width", "1px")
+                .style("background-color", "white")
+                .style("font-size", 12);      
+            div.html("<b><u>" + d.source.name + "</b></u> → <b><u>"  + d.target.name + "</b></u><br/><br/>" + format(d.value) + "<i>" + selectItems() + "</i>")
+                .style("left", (d3.event.pageX + 15) + "px")     
+                .style("top", (d3.event.pageY) + "px");    
             })                  
         .on("mouseout", function(d) {       
             div.transition()        
@@ -411,20 +426,22 @@
                 .style("fill", function(d) {
           		  return d.color = color(d.name.replace(/ .*/, "")); })
                 .style("stroke", function(d) {
-          		  return d3.rgb(d.color).darker(2); })
-              .append("title")
-                .text(function(d) {
-          		  return d.name + "\n"
-                + format(d.value)
-                ; });
+          		  return d3.rgb(d.color).darker(2); });
 
             rect.on("mouseover", function(d) {      
             div.transition()        
-                .duration(200)      
-                .style("opacity", .9);      
-            div .html("<b>" + d.name + "</b>:<br/>" + format(d.value))  
-                .style("left", (d3.event.pageX) + "px")     
-                .style("top", (d3.event.pageY - 28) + "px");    
+                .duration(50)      
+                .style("opacity", .9)
+                .style("width", 200)
+                .style("height", 100)
+                .style("border-color", "black")
+                .style("border-style", "solid")
+                .style("border-width", "1px")
+                .style("background-color", "white")
+                .style("font-size", 12);      
+            div.html("<b><u>" + d.name + "</b>:</u><br/><br/>" + format(d.value) + "<i>" + selectItems() + "</i>")
+                .style("left", (d3.event.pageX + 15) + "px")     
+                .style("top", (d3.event.pageY) + "px");    
             })                  
             .on("mouseout", function(d) {       
               div.transition()        
