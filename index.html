@@ -10,42 +10,78 @@
 
 </head>
 <style>
-@font-face { font-family: Roboto; src: url('Roboto-Regular.ttf'); } 
+@font-face { font-family: Roboto; src: url('Roboto-Regular.ttf'); }
+
+
 
  #window {
-   width: 1200px;
+   width: 80%;
    margin: auto auto;
    position: relative;
    resize: both;
+   background-color: #F5F5F5;
+ }
+ #heading {
+   display: flex;
  }
  body {
    font-family: 'Roboto', sans-serif;
    font-style: normal;
    font-variant: normal;
    text-anchor: 'middle';
-   dominant-baseline: 'central';
+   background-color: #F5F5F5;
  }
  h1{
-   font-family: Roboto;
+   font-family: 'Roboto';
    position: relative;
    text-align: left;
    color: #282828;
  }
- h3{
-   font-family: Roboto;
-   font-size: 12;
+ h2{
+   font-family: 'Roboto', sans-serif;
+   font-size: 16;
    color: gray;
    padding-left: 0px;
+   padding-bottom: 0px;
+   margin-left: 490px;
+ }
+ h3{
+   font-family: 'Roboto', sans-serif;
+   font-size: 18;
+   color: gray;
+   padding-left: 0px;
+   padding-bottom: 50px;
+ }
+ h4 {
+   font-family: 'Roboto', sans-serif;
+   font-size: 16;
+   font-weight: bold;
+   text-align: center;
+   margin: 5px;
+
+ }
+ h5 {
+   font-family: 'Roboto', sans-serif;
+   font-size: 11;
+   text-align: center;
+   margin: 5px;
+ }
+ hr {
+   border-color: red;
+   border-width: .5px;
  }
  #checkExplain1{
+   font-size: 14;
    position: absolute;
-   left: 40px;
+   text-align: center;
+   left: 30px;
  }
  #checkExplain2{
    position: absolute;
-   left: 40px;
-   font-size: 8;
-   top: 35px;
+   text-align: center;
+   left: 30px;
+   font-size: 10;
+   top: 50px;
  }
  .node rect {
    fill-opacity: .9;
@@ -56,7 +92,6 @@
  }
 
  .node text {
-   color: green;
    text-shadow: 0 1px 0 #fff;
  }
 
@@ -79,32 +114,36 @@
    font-size: 10;
    border-width: 1px;
    border-style: solid;
-   border-color: #ccc;
-   height: 200px;
+   border-color: red;
+   border-radius: 20px;
+   height: 250px;
    width: 10px;
+
  }
  svg {
-   float: top;
-   background: rgba(255,255,255,1);
+   float: right;
+   background-color: #F5F5F5;
    position: absolute;
    transform: translate(-30%, 0);
  }
- div.tooltipsankey {   
-   position: absolute;           
-   text-align: left;           
-   width: 95px;                  
-   height: 40px;                 
-   padding: 4px;             
-   font: 11px sans-serif;        
-   background: silver;   
-   border: 0px;      
-   border-radius: 8px;           
-   pointer-events: none;         
+ div.tooltipsankey {
+   opacity: 0;
+   transition: opacity .2s;
+   position: absolute;
+   text-align: center;
+   width: 95px;
+   height: 50px;
+   padding: 4px;
+   font: 11px 'Roboto';
+   background: silver;
+   border: 0px;
+   border-radius: 8px;
+   pointer-events: none;
  }
  .container {
    display: block;
    position: relative;
-   top: 80px;
+   top: 110px;
    padding-left: 35px;
    cursor: pointer;
    font-size: 15px;
@@ -128,7 +167,7 @@
    left: 0;
    height: 25px;
    width: 25px;
-   background-color: #eee;
+   background-color: #A9A9A9;
    font-size: 10;
  }
  label {
@@ -141,7 +180,7 @@
  }
  /* When the checkbox is checked, add a blue background */
  .container input:checked ~ .checkmark {
-   background-color: #2196F3;
+   background-color: #ff0000;
  }
  /* Create the checkmark/indicator (hidden when not checked) */
  .checkmark:after {
@@ -181,16 +220,22 @@ p#footnotes a{
 
 </style>
 <body>
-
 <div id="window">
-<h1><img src="yt_logo_rgb_light.png" alt="YouTube Logo" style="width:200px;height:50px; position: relative; padding-right:20px; padding-top: 10px">YouSATube vs. YouKTube</h1>
-<h3>A visualization of several months of data on daily trending YouTube videos of the United States and Great Britain</h3>
-  <div id="chart" align="center">
-    <svg height="700" width="800" id="svg1" viewBox="150 0 500 800" preserveAspectRatio="xMidYMid meet" style="margin-left: 0 auto; margin-right: 0 auto">
-    </svg>
+  <div id="heading">
+    <img src="yt_logo_rgb_light.png" alt="YouTube Logo" style="width:200px;height:50px; position: relative; padding-right:20px; padding-top: 10px">
+    <h1>Yo<span style="color: red">USA</span>Tube vs. Yo<span style="color: red">UK</span>Tube</h1>
   </div>
-  
+  <h3>A visualization of several months of data on daily trending YouTube videos of the United States and Great Britain.</h3>
+  <!-- <h2>November 2017 to April 2018</h2> -->
+  <div id="chart-elements">
+
     <div class="checkbox"></div>
+    <h2>November 2017 to April 2018</h2>
+    <div id="chart" align="center">
+      <svg height="700" width="800" id="svg1" viewBox="150 0 500 800" preserveAspectRatio="xMidYMid meet" style="margin-left: 0 auto; margin-right: 0 auto">
+      </svg>
+    </div>
+  </div>
 
   <script>
 
@@ -211,9 +256,9 @@ p#footnotes a{
       .size([width, height]);
 
   var path = sankey.link();
-  var div = d3.select("body").append("div")   
-    .attr("class", "tooltipsankey")               
-    .style("opacity", 0); 
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltipsankey")
+    .style("opacity", 0);
 
   var usaData;
   var gbData;
@@ -225,7 +270,7 @@ p#footnotes a{
   function selectBox(){
           if(document.getElementById("likes").checked == true && criteria[0] != 1){
             criteria[0] = 1;
-          } 
+          }
           if(document.getElementById("likes").checked == false && criteria[0] == 1){
             criteria[0] = 0;
           }
@@ -258,7 +303,7 @@ p#footnotes a{
               if (criteria[3] == "1"){ res+= "   comments";}
               return res + " among all videos in this category";
             }
- 
+
 
   d3.queue()
   .defer(d3.csv, "USvideos.csv")
@@ -307,7 +352,7 @@ p#footnotes a{
                              .attr("y", 0)
                              .attr("width", 2000)
                              .attr("height", 800)
-                             .style("fill", "white");
+                             .style("fill", "#F5F5F5");
                 if ($('input[type=checkbox]:checked').length <= 0) {
                    return;
                  }
@@ -316,7 +361,7 @@ p#footnotes a{
         });
 
 
-              
+
       function createSankey(criteriaArray) {
 
         UsaSummary = nestedUsaData.map(function (d) {
@@ -433,7 +478,7 @@ p#footnotes a{
           }
           links.push({ "source": "GB",
                         "target": d.Category,
-                        "value": d.Value, 
+                        "value": d.Value,
                         "color": "#4d4d4d",
                         "thumbnail": d.Thumbnail,
                         "max_name": d.Max_name});
@@ -463,25 +508,25 @@ p#footnotes a{
           .style("stroke", function(d) { return d.color ;});
 
         link.on("mouseover", function(d) {
-            div.transition()        
-                .duration(0)      
+            div.transition()
+                .duration(0)
                 .style("opacity", 1)
                 .style("width", 200)
-                .style("height", 250)
-                .style("border-color", "black")
+                .style("height", 270)
+                .style("border-color", "red")
                 .style("border-style", "solid")
                 .style("border-width", "1px")
                 .style("background-color", "white")
                 .style("font-size", 12)
-                .attr("id", "linkdiv");      
-            div.html("<b>" + d.source.name + "</b> → <b>"  + d.target.name + "</b><hr>" + format(d.value) + "<i>" + selectItems() + "</i></br><hr>" + "<img src=" + d.thumbnail + "></br></br>" + d.max_name)
-                .style("left", (d3.event.pageX + 15) + "px")     
-                .style("top", (d3.event.pageY) + "px");    
-            })                  
-        .on("mouseout", function(d) { 
-            div.transition()        
-                .duration(0)      
-                .style("opacity", 0);   
+                .attr("id", "linkdiv");
+            div.html("<b><h4>" + d.source.name + "</b> → <b>"  + d.target.name + "</h4></b><hr><b><h4>" + format(d.value).toString() + "</h4></b><i><h5>" + selectItems() + "</h5></i><hr><h4>Top video:</h4>" + "<img src=" + d.thumbnail + "></br></br>" + d.max_name)
+                .style("left", (d3.event.pageX + 15) + "px")
+                .style("top", (d3.event.pageY) + "px");
+            })
+        .on("mouseout", function(d) {
+            div.transition()
+                .duration(0)
+                .style("opacity", 0);
         });
 
 
@@ -492,11 +537,6 @@ p#footnotes a{
                 .attr("class", "node")
                 .attr("transform", function(d) {
           		  return "translate(" + d.x + "," + d.y + ")"; })
-              // .call(d3.behavior.drag()
-              //   .origin(function(d) { return d; })
-              //   .on("dragstart", function() {
-          		//   this.parentNode.appendChild(this); })
-              //   .on("drag", dragmove));
 
           // add the rectangles for the nodes
             var rect = node.append("rect")
@@ -507,26 +547,26 @@ p#footnotes a{
                 .style("stroke", function(d) {
           		  return d3.rgb(d.color).darker(2); });
 
-            rect.on("mouseover", function(d) {      
-            div.transition()        
-                .duration(0)      
+            rect.on("mouseover", function(d) {
+            div.transition()
+                .duration(0)
                 .style("opacity", 1)
                 .style("width", 150)
-                .style("height", 80)
-                .style("border-color", "black")
+                .style("height", 100)
+                .style("border-color", "red")
                 .style("border-style", "solid")
                 .style("border-width", "1px")
                 .style("background-color", "white")
                 .style("font-size", 12)
-                .attr("id", "nodediv");  ;      
-            div.html("<b>" + d.name + "</b><br/><hr>" + format(d.value) + "<i>" + selectItems() + "</i>")
-                .style("left", (d3.event.pageX + 15) + "px")     
-                .style("top", (d3.event.pageY) + "px");    
-            })                  
-            .on("mouseout", function(d) {       
-              div.transition()        
-                .duration(0)      
-                .style("opacity", 0);   
+                .attr("id", "nodediv");  ;
+            div.html("<h4>" + d.name + "</h4><hr><h4>" + format(d.value).toString() + "</h4><i><h5>" + selectItems() + "</h5></i>")
+                .style("left", (d3.event.pageX + 15) + "px")
+                .style("top", (d3.event.pageY) + "px");
+            })
+            .on("mouseout", function(d) {
+              div.transition()
+                .duration(0)
+                .style("opacity", 0);
         });
 
           // add in the title for the nodes
@@ -543,23 +583,23 @@ p#footnotes a{
 
             // Fade-Effect on mouseover
             node.on("mouseover", function(d) {
-              link.transition()        
+              link.transition()
                     .duration(400)
                 .style("opacity", 0);
-              link.filter(function(s) { return d.name == s.source.name; }).transition()        
+              link.filter(function(s) { return d.name == s.source.name; }).transition()
                     .duration(700)
                 .style("opacity", 1);
-              link.filter(function(t) { return d.name == t.target.name; }).transition()        
+              link.filter(function(t) { return d.name == t.target.name; }).transition()
                     .duration(700)
                 .style("opacity", 1);
               })
-              .on("mouseout", function(d) { svg.selectAll(".link").transition()        
+              .on("mouseout", function(d) { svg.selectAll(".link").transition()
                     .duration(700)
-                .style("opacity", 1)} ); 
-            
+                .style("opacity", 1)} );
+
       }
       createSankey(criteria);
-        
+
 
       }
   });
