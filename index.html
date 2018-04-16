@@ -500,7 +500,7 @@
             rect.on("mouseover", function(d) {      
             div.transition()        
                 .duration(0)      
-                .style("opacity", .9)
+                .style("opacity", 1)
                 .style("width", 150)
                 .style("height", 60)
                 .style("border-color", "black")
@@ -509,7 +509,7 @@
                 .style("background-color", "white")
                 .style("font-size", 12)
                 .attr("id", "nodediv");  ;      
-            div.html("<b><u>" + d.name + "</b>:</u><br/><br/>" + format(d.value) + "<i>" + selectItems() + "</i>")
+            div.html("<b>" + d.name + "</b><br/><hr>" + format(d.value) + "<i>" + selectItems() + "</i>")
                 .style("left", (d3.event.pageX + 15) + "px")     
                 .style("top", (d3.event.pageY) + "px");    
             })                  
