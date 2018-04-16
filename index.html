@@ -88,7 +88,6 @@
    background: rgba(255,255,255,1);
    position: absolute;
    transform: translate(-30%, 0);
-
  }
  div.tooltipsankey {   
    position: absolute;           
@@ -112,15 +111,15 @@
    -webkit-user-select: none;
    -moz-user-select: none;
    -ms-user-select: none;
-   user-select: none
+   user-select: none;
  }
 
- /* Hide the browser's default checkbox */
  .container input {
    position: absolute;
    opacity: 0;
    cursor: pointer;
  }
+ /* Based the checkbox CSS on one shown in W3 Schools, but still changed some things*/
 
  /* Create a custom checkbox */
  .checkmark {
@@ -132,29 +131,28 @@
    background-color: #eee;
    font-size: 10;
  }
-
+ label {
+  font-color: #282828;
+  font-size: 10;
+ }
  /* On mouse-over, add a grey background color */
  .container:hover input ~ .checkmark {
    background-color: #ccc;
  }
-
  /* When the checkbox is checked, add a blue background */
  .container input:checked ~ .checkmark {
    background-color: #2196F3;
  }
-
  /* Create the checkmark/indicator (hidden when not checked) */
  .checkmark:after {
    content: "";
    position: absolute;
    display: none;
  }
-
  /* Show the checkmark when checked */
  .container input:checked ~ .checkmark:after {
    display: block;
  }
-
  /* Style the checkmark/indicator */
  .container .checkmark:after {
    left: 9px;
@@ -167,7 +165,19 @@
    -ms-transform: rotate(45deg);
    transform: rotate(45deg);
  }
-
+ p#footnotes {
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  color: #808080;
+  top: 450px;
+  left: -200px;
+}
+p#footnotes a{
+  color: #282828;
+  text-decoration: none;
+}
 
 </style>
 <body>
@@ -554,6 +564,12 @@
       }
   });
   </script>
+  <p id="footnotes">
+    <u>SOURCES:</u><br>
+    <br>Datasets were compiled by <a href="https://www.kaggle.com/datasnaek/youtube-new">Trending YouTube Video Statistics (Kaggle 2018)</a>.
+    <br>Font used is <a href="https://fonts.google.com/specimen/Roboto">Roboto-Regular</a> by Christian Robertson.
+    <br>Youtube images and colors used were taken from <a href="https://www.youtube.com/yt/about/brand-resources/#logos-icons-colors">YouTube Brand Resources</a>.
+  </p>
 </div>
 </body>
 </html>
