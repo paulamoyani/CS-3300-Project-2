@@ -1,10 +1,11 @@
 <html>
 <head>
 <!DOCTYPE html>
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <title>INFO 3300 PROJECT 2</title>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://rawgit.com/Teun/thenBy.js/master/thenBy.min.js"></script>
 <script src="sankey.js"></script>
 
 </head>
@@ -178,14 +179,7 @@
     <svg height="700" width="800" id="svg1" viewBox="150 0 500 800" preserveAspectRatio="xMidYMid meet" style="margin-left: 0 auto; margin-right: 0 auto">
     </svg>
   </div>
-    <!-- CANNOT USE THIS BC NEEDS TO BE INSIDE THE ELSE STATEMENT
-    <form action="index.html" class="checkbox" method="post" id="checkbox1">
-      <input type="checkbox" name="option" value="likes" id="likes" onclick="selectBox()" checked> Likes<br>
-      <input type="checkbox" name="option" value="views" id="views" onclick="selectBox()"> Views<br>
-      <input type="checkbox" name="option" value="dislikes" id="dislikes" onclick="selectBox()"> Dislikes<br>
-      <input type="checkbox" name="option" value="comment_count" id="comment_count" onclick="selectBox()"> Comments<br>
-      <input type="submit" value="Submit">
-    </form>-->
+  
     <div class="checkbox"></div>
 
   <script>
@@ -243,13 +237,14 @@
           if(document.getElementById("comment_count").checked == false && criteria[3] == 1){
             criteria[3] = 0;
           }
-          console.log(criteria);
   }
+
+
   function selectItems(){
               var res = "";
               if (criteria[0] == "1"){ res+= "   likes"; if (criteria[1] == "1" || criteria[2] == "1" || criteria[3] == "1" ){ res+= ",";}}
               if (criteria[1] == "1"){ res+= "   views"; if (criteria[2] == "1" || criteria[3] == "1") { res+= ","}}
-              if (criteria[2] == "1"){ res+= "   dislikes"; if (criteria[2] == "1" ) { res+= ","}}
+              if (criteria[2] == "1"){ res+= "   dislikes"; if (criteria[3] == "1" ) { res+= ","}}
               if (criteria[3] == "1"){ res+= "   comments";}
               return res;
             }
@@ -278,13 +273,10 @@
 
     	  console.log("done processing");
 
-        valuesArray = Array();
 
         //Probably insert interactivity if statements here on criteria:
         nestedUsaData.forEach(function(d) {
-          //console.log(d.values);
           d.values.forEach(function(t){
-            //console.log(t);
           })
         })
 
@@ -297,7 +289,7 @@
           $(".checkbox").append(form);
 
 
-        $('.checkbox').click(function (){
+         $('.checkbox').click(function (){
 
               //Cover previous diagrams
         			var rectangle = svg.append("rect")
@@ -311,7 +303,6 @@
                  }
 
               createSankey(criteria);
-              //setTimeout(toggleTransition, 2400);
         });
 
 
@@ -322,23 +313,96 @@
           return {
             Category: d.key,
             Value: (d3.sum(d.values, d => d["likes"])*criteriaArray[0]) + (d3.sum(d.values, d => d["views"])*criteriaArray[1]) + (d3.sum(d.values, d => d["dislikes"])*criteriaArray[2]) + (d3.sum(d.values, d => d["comment_count"])*criteriaArray[3]),
-            Max_name: d.values.sort(function(x, y){return d3.descending(x[criteria], y[criteria]);})[0].title,
-            Max_value: d3.max(d.values, d => d[criteria])
+            Max_name: selectMax(d),
+            Thumbnail: d.values[0].thumbnail_link
           };
         });
-
-        //console.log(UsaSummary);
 
         GBSummary = nestedGBData.map(function (d) {
-          //console.log(d[criteriaArray[3]])
           return {
             Category: d.key,
-            //Value: d3.sum(d.values, d => d[criteria]),
             Value: (d3.sum(d.values, d => d["likes"])*criteriaArray[0]) + (d3.sum(d.values, d => d["views"])*criteriaArray[1]) + (d3.sum(d.values, d => d["dislikes"])*criteriaArray[2]) + (d3.sum(d.values, d => d["comment_count"])*criteriaArray[3]),
-            Max_name: d.values.sort(function(x, y){return d3.descending(x[criteria], y[criteria]);})[0].title,
-            Max_value: d3.max(d.values, d => d[criteria])
+            Max_name: selectMax(d),
+            Thumbnail: d.values[0].thumbnail_link
           };
         });
+
+
+        function selectMax(d) {
+          if (criteriaArray[0]==1 && criteriaArray[1]==0 && criteriaArray[2]==0 && criteriaArray[3]==0) {
+             return d.values.sort(function(x, y){return d3.descending(x[criteriaArray[0]], y[criteriaArray[0]]);})[0].title;
+          }
+          if (criteriaArray[0]==0 && criteriaArray[1]==1 && criteriaArray[2]==0 && criteriaArray[3]==0) {
+             return d.values.sort(function(x, y){return d3.descending(x[criteriaArray[1]], y[criteriaArray[1]]);})[0].title;
+          }
+          if (criteriaArray[0]==0 && criteriaArray[1]==0 && criteriaArray[2]==1 && criteriaArray[3]==0) {
+             return d.values.sort(function(x, y){return d3.descending(x[criteriaArray[2]], y[criteriaArray[2]]);})[0].title;
+          }
+          if (criteriaArray[0]==0 && criteriaArray[1]==0 && criteriaArray[2]==0 && criteriaArray[3]==1) {
+             return d.values.sort(function(x, y){return d3.descending(x[criteriaArray[3]], y[criteriaArray[3]]);})[0].title;
+          }
+          if (criteriaArray[0]==1 && criteriaArray[1]==1 && criteriaArray[2]==0 && criteriaArray[3]==0) {
+             return d.values.sort(
+              firstBy("likes")
+             .thenBy("views"))[0].title;
+          }
+          if (criteriaArray[0]==1 && criteriaArray[1]==0 && criteriaArray[2]==1 && criteriaArray[3]==0) {
+              return d.values.sort(
+             firstBy("likes")
+             .thenBy("dislikes"))[0].title;
+          }
+          if (criteriaArray[0]==1 && criteriaArray[1]==0 && criteriaArray[2]==0 && criteriaArray[3]==1) {
+             return d.values.sort(
+             firstBy("likes")
+             .thenBy("comment_count"))[0].title;
+          }
+          if (criteriaArray[0]==1 && criteriaArray[1]==1 && criteriaArray[2]==1 && criteriaArray[3]==0) {
+            return d.values.sort(
+             firstBy("likes")
+             .thenBy("views")
+             .thenBy("dislikes"))[0].title;
+          }
+          if (criteriaArray[0]==1 && criteriaArray[1]==0 && criteriaArray[2]==1 && criteriaArray[3]==1) {
+            return d.values.sort(
+             firstBy("likes")
+             .thenBy("dislikes")
+             .thenBy("comment_count"))[0].title;
+          }
+          if (criteriaArray[0]==1 && criteriaArray[1]==1 && criteriaArray[2]==0 && criteriaArray[3]==1) {
+            return d.values.sort(
+             firstBy("likes")
+             .thenBy("views")
+             .thenBy("comment_count"))[0].title;
+          }
+          if (criteriaArray[0]==1 && criteriaArray[1]==1 && criteriaArray[2]==1 && criteriaArray[3]==1) {
+            return d.values.sort(
+             firstBy("likes")
+             .thenBy("views")
+             .thenBy("dislikes")
+             .thenBy("comment_count"))[0].title;
+          }
+          if (criteriaArray[0]==0 && criteriaArray[1]==1 && criteriaArray[2]==1 && criteriaArray[3]==0) {
+            return d.values.sort(
+             firstBy("views")
+             .thenBy("dislikes"))[0].title;
+          }
+          if (criteriaArray[0]==0 && criteriaArray[1]==1 && criteriaArray[2]==0 && criteriaArray[3]==1) {
+            return d.values.sort(
+             firstBy("views")
+             .thenBy("comment_count"))[0].title;
+          }
+          if (criteriaArray[0]==0 && criteriaArray[1]==1 && criteriaArray[2]==1 && criteriaArray[3]==1) {
+            return d.values.sort(
+             firstBy("views")
+             .thenBy("dislikes")
+             .thenBy("comment_count"))[0].title;
+          }
+          if (criteriaArray[0]==0 && criteriaArray[1]==0 && criteriaArray[2]==1 && criteriaArray[3]==1) {
+            return d.values.sort(
+             firstBy("dislikes")
+             .thenBy("comment_count"))[0].title;
+          }
+        }
 
         var nodes = ["USA", "GB"];
         var links = [];
@@ -348,7 +412,9 @@
           links.push({ "source": "USA",
                        "target": d.Category,
                        "value": d.Value,
-                       "color": "#000000"});
+                       "color": "#000000",
+                       "thumbnail": d.Thumbnail,
+                       "max_name": d.Max_name});
           });
 
         GBSummary.forEach(function (d) {
@@ -358,7 +424,9 @@
           links.push({ "source": "GB",
                         "target": d.Category,
                         "value": d.Value, 
-                        "color": "#4d4d4d"});
+                        "color": "#4d4d4d",
+                        "thumbnail": d.Thumbnail,
+                        "max_name": d.Max_name});
           });
 
         links.forEach(function (d, i) {
@@ -386,22 +454,23 @@
 
         link.on("mouseover", function(d) {
             div.transition()        
-                .duration(200)      
-                .style("opacity", .9)
+                .duration(0)      
+                .style("opacity", 1)
                 .style("width", 200)
-                .style("height", 100)
+                .style("height", 200)
                 .style("border-color", "black")
                 .style("border-style", "solid")
                 .style("border-width", "1px")
                 .style("background-color", "white")
-                .style("font-size", 12);      
-            div.html("<b><u>" + d.source.name + "</b></u> → <b><u>"  + d.target.name + "</b></u><br/><br/>" + format(d.value) + "<i>" + selectItems() + "</i>")
+                .style("font-size", 12)
+                .attr("id", "linkdiv");      
+            div.html("<b>" + d.source.name + "</b> → <b>"  + d.target.name + "</b><hr>" + format(d.value) + "<i>" + selectItems() + "</i></br><hr>" + "<img src=" + d.thumbnail + "></br></br>" + d.max_name)
                 .style("left", (d3.event.pageX + 15) + "px")     
                 .style("top", (d3.event.pageY) + "px");    
             })                  
-        .on("mouseout", function(d) {       
+        .on("mouseout", function(d) { 
             div.transition()        
-                .duration(500)      
+                .duration(0)      
                 .style("opacity", 0);   
         });
 
@@ -430,22 +499,23 @@
 
             rect.on("mouseover", function(d) {      
             div.transition()        
-                .duration(50)      
+                .duration(0)      
                 .style("opacity", .9)
-                .style("width", 200)
-                .style("height", 100)
+                .style("width", 150)
+                .style("height", 60)
                 .style("border-color", "black")
                 .style("border-style", "solid")
                 .style("border-width", "1px")
                 .style("background-color", "white")
-                .style("font-size", 12);      
+                .style("font-size", 12)
+                .attr("id", "nodediv");  ;      
             div.html("<b><u>" + d.name + "</b>:</u><br/><br/>" + format(d.value) + "<i>" + selectItems() + "</i>")
                 .style("left", (d3.event.pageX + 15) + "px")     
                 .style("top", (d3.event.pageY) + "px");    
             })                  
             .on("mouseout", function(d) {       
               div.transition()        
-                .duration(500)      
+                .duration(0)      
                 .style("opacity", 0);   
         });
 
@@ -464,7 +534,7 @@
             // Fade-Effect on mouseover
             node.on("mouseover", function(d) {
               link.transition()        
-                    .duration(700)
+                    .duration(400)
                 .style("opacity", 0);
               link.filter(function(s) { return d.name == s.source.name; }).transition()        
                     .duration(700)
@@ -476,64 +546,13 @@
               .on("mouseout", function(d) { svg.selectAll(".link").transition()        
                     .duration(700)
                 .style("opacity", 1)} ); 
-                    
             
-
-                /**function update(nodeData, linkData) {
-                  sankey
-                    .nodes(nodeData)
-                    .links(linkData)
-                    .layout(32);
-
-                  sankey.relayout();
-                  fontScale.domain(d3.extent(nodeData, function(d) { return d.value }));
-
-                  svg.selectAll(".link")
-                    .data(linkData, function(d) { return d.id; })
-                    .sort(function(a, b) {
-                      return b.dy - a.dy;
-                    })
-                    .transition()
-                    .duration(1300)
-                    .attr("d", path)
-                    .style("stroke-width", function(d) {
-                      return Math.max(1, d.dy) + "px";
-                    });
-
-                  svg.selectAll(".node")
-                    .data(nodeData, function(d) { return d.name; })
-                    .transition()
-                    .duration(1300)
-                    .attr("transform", function(d) {
-                      return "translate(" + d.x + "," + d.y + ")";
-                    });
-
-                  svg.selectAll(".node rect")
-                    .transition()
-                    .duration(1300)
-                    .attr("height", function(d) {
-                      return d.dy;
-                    });
-
-                  svg.selectAll(".node text")
-                    .transition()
-                    .duration(1300)
-                    .attr("y", function(d) {
-                      return d.dy / 2;
-                    })
-                    .style("font-size", function(d) {
-                      return Math.floor(fontScale(d.value)) + "px";
-                    });
-                };**/
       }
       createSankey(criteria);
         
-      
-
 
       }
   });
-console.log(criteria)
   </script>
 </div>
 </body>
